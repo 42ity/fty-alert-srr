@@ -151,8 +151,6 @@ dto::srr::RestoreResponse AlertSrr::handleRestore(const dto::srr::RestoreQuery& 
                 std::unique_lock<std::mutex> lock(m_srrLock);
                 std::vector<fty::AlertRule>  rules = deserializeRules(feature.data(), SRR_ACTIVE_VERSION);
 
-                // delete previous rules
-                m_alertRuleManager.clearRules();
                 // restore rules from SRR
                 m_alertRuleManager.restoreRules(rules);
 
@@ -182,12 +180,25 @@ dto::srr::ResetResponse AlertSrr::handleReset(const dto::srr::ResetQuery& query)
 
     std::map<FeatureName, FeatureStatus> mapStatus;
 
-    log_debug("Received reset query %s", query.DebugString().c_str());
-
     const FeatureName& featureName = ALERT_SRR_NAME;
+    const auto& features = query.features();
+
     FeatureStatus      featureStatus;
     featureStatus.set_status(Status::FAILED);
-    featureStatus.set_error("SRR feature " + featureName + " is not supported");
+
+    if(std::find(features.begin(), features.end(), featureName) != features.end()) {
+        try {
+            m_alertRuleManager.clearRules();
+            featureStatus.set_status(Status::SUCCESS);
+        } catch (std::exception& ex) {
+            log_error("Reset of alerts failed");
+            featureStatus.set_status(Status::FAILED);
+            featureStatus.set_error("SRR feature " + featureName + " could not be reset");
+        }
+    } else {
+        featureStatus.set_status(Status::FAILED);
+        featureStatus.set_error("Invalid reset request: " + featureName + " could not be reset by " + ALERT_SRR_AGENT);
+    }
 
     mapStatus[featureName] = featureStatus;
 
