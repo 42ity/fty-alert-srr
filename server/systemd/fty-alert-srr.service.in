@@ -12,7 +12,7 @@ PartOf=fty-srr.service
 Type=simple
 User=bios
 Restart=always
-ExecStart=@CMAKE_INSTALL_FULL_SYSCONFDIR@/fty-alert-srr
+ExecStart=@CMAKE_INSTALL_FULL_BINDIR@/@PROJECT_NAME@
 
 [Install]
 WantedBy=bios.target
