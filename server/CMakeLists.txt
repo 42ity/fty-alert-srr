@@ -30,6 +30,12 @@ etn_target(exe ${PROJECT_NAME}
 ##############################################################################################################
 
 install(FILES conf/fty-alert-srr.cfg DESTINATION ${CMAKE_INSTALL_FULL_SYSCONFDIR}/fty-alert-srr/)
-install(FILES systemd/fty-alert-srr.service DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/systemd/system/)
+
+# systemd unit
+etn_configure_file(
+    systemd/${PROJECT_NAME}.service.in
+    TARGET      ${PROJECT_NAME}
+    DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/systemd/system/"
+)
 
 ##############################################################################################################
