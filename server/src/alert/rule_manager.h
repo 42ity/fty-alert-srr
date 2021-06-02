@@ -41,7 +41,7 @@ public:
 
     void addAlertRulesPath(const fty::AlertRule::Type& type, const std::string& path);
     void removeAlertRulesPath(const fty::AlertRule::Type& type);
-    
+
     void addDelExclusion(const fty::AlertRule::Type& type, const std::string& name);
     void removeDelExclusion(const fty::AlertRule::Type& type, const std::string& name);
 

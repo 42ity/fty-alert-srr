@@ -14,9 +14,19 @@ find_package(fty-cmake PATHS ${CMAKE_BINARY_DIR}/fty-cmake)
 
 etn_target(exe ${PROJECT_NAME}
     SOURCES
-        src/*.cpp
-        src/*.h
-
+        src/alert/rule.cpp
+        src/alert/rule.h
+        src/alert/rule_manager.cpp
+        src/alert/rule_manager.h
+        src/config/config.cpp
+        src/config/config.h
+        src/srr/alert-srr.cpp
+        src/srr/alert-srr.h
+        src/utils/messages.cpp
+        src/utils/messages.h
+        src/utils/serialization.cpp
+        src/utils/serialization.h
+        src/fty-alert-srr.cpp
     USES_PRIVATE
         cxxtools
         fty_common_dto

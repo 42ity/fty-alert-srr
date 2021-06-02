@@ -30,8 +30,9 @@ namespace fty {
 class AlertRule;
 }
 
-namespace fty { namespace alertutils {
+namespace fty::alertutils {
 
-    std::string serializeRules(const std::vector<fty::AlertRule>& rules, const std::string& version);
-    std::vector<fty::AlertRule> deserializeRules(const std::string& json, const std::string& version);
-}} // namespace fty::alertutils
+std::string                 serializeRules(const std::vector<fty::AlertRule>& rules, const std::string& version);
+std::vector<fty::AlertRule> deserializeRules(const std::string& json, const std::string& version);
+
+} // namespace fty::alertutils

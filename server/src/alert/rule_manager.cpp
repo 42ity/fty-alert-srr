@@ -116,8 +116,8 @@ void AlertRuleManager::addDelExclusion(const fty::AlertRule::Type& type, const s
     auto found = std::find(m_delExclusions.begin(), m_delExclusions.end(), std::make_pair(type, name));
 
     if (found != m_delExclusions.end()) {
-        log_warning("Rule %s:%s already excluded from deletion", AlertRule::ruleTypeToString(type).c_str(),
-            name.c_str());
+        log_warning(
+            "Rule %s:%s already excluded from deletion", AlertRule::ruleTypeToString(type).c_str(), name.c_str());
     } else {
         m_delExclusions.push_back(std::make_pair(type, name));
     }
@@ -128,12 +128,10 @@ void AlertRuleManager::removeDelExclusion(const fty::AlertRule::Type& type, cons
     auto found = std::find(m_delExclusions.begin(), m_delExclusions.end(), std::make_pair(type, name));
 
     if (found != m_delExclusions.end()) {
-        log_debug(
-            "Deleting rule %s:%s from exclusions", AlertRule::ruleTypeToString(type).c_str(), name.c_str());
+        log_debug("Deleting rule %s:%s from exclusions", AlertRule::ruleTypeToString(type).c_str(), name.c_str());
         m_delExclusions.erase(found);
     } else {
-        log_warning(
-            "Rule %s:%s is not set in exclusions", AlertRule::ruleTypeToString(type).c_str(), name.c_str());
+        log_warning("Rule %s:%s is not set in exclusions", AlertRule::ruleTypeToString(type).c_str(), name.c_str());
     }
 }
 
@@ -211,14 +209,12 @@ void AlertRuleManager::clearRules()
                 if (f.path().extension() == ALERT_RULES_EXT) {
                     const std::string& name = f.path().stem();
 
-                    auto found =
-                        find_if(m_delExclusions.begin(), m_delExclusions.end(), [&](const TypeNamePair& ex) {
-                            return ex.first == type && ex.second == name;
-                        });
+                    auto found = find_if(m_delExclusions.begin(), m_delExclusions.end(), [&](const TypeNamePair& ex) {
+                        return ex.first == type && ex.second == name;
+                    });
 
                     if (found != m_delExclusions.end()) {
-                        log_warning("Rule %s of type %s set in exclusions: skipping...", name.c_str(),
-                            typeStr.c_str());
+                        log_warning("Rule %s of type %s set in exclusions: skipping...", name.c_str(), typeStr.c_str());
                         continue;
                     }
 

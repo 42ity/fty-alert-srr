@@ -19,34 +19,33 @@
 
 #include "messages.h"
 
-namespace fty { namespace alertutils {
+namespace fty::alertutils {
 
-    // create response (data is messagebus::UserData)
-    messagebus::Message createMessage(const std::string& subject, const std::string& correlationID,
-        const std::string& from, const std::string& to, const std::string& status,
-        const messagebus::UserData& data)
-    {
-        messagebus::Message msg;
+// create response (data is messagebus::UserData)
+messagebus::Message createMessage(const std::string& subject, const std::string& correlationID, const std::string& from,
+    const std::string& to, const std::string& status, const messagebus::UserData& data)
+{
+    messagebus::Message msg;
 
-        if (!subject.empty()) {
-            msg.metaData().emplace(messagebus::Message::SUBJECT, subject);
-        }
-        if (!from.empty()) {
-            msg.metaData().emplace(messagebus::Message::FROM, from);
-        }
-        if (!to.empty()) {
-            msg.metaData().emplace(messagebus::Message::TO, to);
-        }
-        if (!correlationID.empty()) {
-            msg.metaData().emplace(messagebus::Message::CORRELATION_ID, correlationID);
-        }
-        if (!status.empty()) {
-            msg.metaData().emplace(messagebus::Message::STATUS, status);
-        }
-
-        msg.userData() = data;
-
-        return msg;
+    if (!subject.empty()) {
+        msg.metaData().emplace(messagebus::Message::SUBJECT, subject);
+    }
+    if (!from.empty()) {
+        msg.metaData().emplace(messagebus::Message::FROM, from);
+    }
+    if (!to.empty()) {
+        msg.metaData().emplace(messagebus::Message::TO, to);
+    }
+    if (!correlationID.empty()) {
+        msg.metaData().emplace(messagebus::Message::CORRELATION_ID, correlationID);
+    }
+    if (!status.empty()) {
+        msg.metaData().emplace(messagebus::Message::STATUS, status);
     }
 
-}} // namespace fty::alertutils
+    msg.userData() = data;
+
+    return msg;
+}
+
+} // namespace fty::alertutils

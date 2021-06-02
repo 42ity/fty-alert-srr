@@ -67,7 +67,9 @@ int main()
     log_info((AGENT_NAME + std::string(" started")).c_str());
 
     std::unique_lock<std::mutex> lock(g_cvMutex);
-    g_cv.wait(lock, [] { return g_exit; });
+    g_cv.wait(lock, [] {
+        return g_exit;
+    });
 
     log_info((AGENT_NAME + std::string(" stopped")).c_str());
 

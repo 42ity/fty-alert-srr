@@ -85,8 +85,7 @@ void AlertSrr::handleSrrRequest(const messagebus::Message& msg)
             msg.metaData().find(messagebus::Message::CORRELATION_ID)->second, ALERT_SRR_AGENT,
             msg.metaData().find(messagebus::Message::REPLY_TO)->second, messagebus::STATUS_OK, respData);
 
-        log_debug(
-            "Sending response to: %s", msg.metaData().find(messagebus::Message::REPLY_TO)->second.c_str());
+        log_debug("Sending response to: %s", msg.metaData().find(messagebus::Message::REPLY_TO)->second.c_str());
         m_srrClient->sendReply(msg.metaData().find(messagebus::Message::REPLY_TO)->second, response);
     } catch (std::exception& e) {
         log_error("Unexpected error: %s", e.what());
@@ -181,12 +180,12 @@ dto::srr::ResetResponse AlertSrr::handleReset(const dto::srr::ResetQuery& query)
     std::map<FeatureName, FeatureStatus> mapStatus;
 
     const FeatureName& featureName = ALERT_SRR_NAME;
-    const auto& features = query.features();
+    const auto&        features    = query.features();
 
-    FeatureStatus      featureStatus;
+    FeatureStatus featureStatus;
     featureStatus.set_status(Status::FAILED);
 
-    if(std::find(features.begin(), features.end(), featureName) != features.end()) {
+    if (std::find(features.begin(), features.end(), featureName) != features.end()) {
         try {
             m_alertRuleManager.clearRules();
             featureStatus.set_status(Status::SUCCESS);

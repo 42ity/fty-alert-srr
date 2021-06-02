@@ -20,10 +20,8 @@
 #pragma once
 
 #include <fty_common_messagebus.h>
-#include <string.h>
 
-namespace fty { namespace alertutils {
-    messagebus::Message createMessage(const std::string& subject, const std::string& correlationID,
-        const std::string& from, const std::string& to, const std::string& status,
-        const messagebus::UserData& data);
-}} // namespace fty::alertutils
+namespace fty::alertutils {
+messagebus::Message createMessage(const std::string& subject, const std::string& correlationID, const std::string& from,
+    const std::string& to, const std::string& status, const messagebus::UserData& data);
+} // namespace fty::alertutils

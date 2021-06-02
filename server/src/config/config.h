@@ -20,10 +20,8 @@
 #pragma once
 
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 std::vector<std::pair<std::string, std::string>> getRulesPath();
 std::vector<std::pair<std::string, std::string>> getDelExclusions();
-
-
