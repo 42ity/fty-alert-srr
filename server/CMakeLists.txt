@@ -19,6 +19,7 @@ etn_target(exe ${PROJECT_NAME}
 
     USES_PRIVATE
         cxxtools
+        fty_common
         fty_common_dto
         fty_common_logging
         fty_common_messagebus

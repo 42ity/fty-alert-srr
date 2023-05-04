@@ -17,13 +17,12 @@
     =========================================================================
 */
 #include "config.h"
-#include <cxxtools/jsondeserializer.h>
-#include <cxxtools/jsonserializer.h>
 #include <cxxtools/serializationinfo.h>
 #include <filesystem>
 #include <fstream>
 #include <fty_log.h>
 #include <sstream>
+#include <fty_common_json.h>
 
 #define CONFIG_FILE "/etc/fty-alert-srr/fty-alert-srr.cfg"
 
@@ -45,19 +44,10 @@ std::vector<std::pair<std::string, std::string>> getRulesPath()
         return pathList;
     }
 
-    std::ifstream file;
-    file.open(filePath);
-
-    std::stringstream json;
-    json << file.rdbuf();
-
-    file.close();
-
     cxxtools::SerializationInfo si;
 
     try {
-        cxxtools::JsonDeserializer deserializer(json);
-        deserializer.deserialize(si);
+        JSON::readFromFile(filePath, si);
     } catch (const std::exception& e) {
         log_error("Error while deserializing configuration file: %s", e.what());
         log_warning("Using default type configuration");
@@ -108,19 +98,10 @@ std::vector<std::pair<std::string, std::string>> getDelExclusions()
         return exclusions;
     }
 
-    std::ifstream file;
-    file.open(filePath);
-
-    std::stringstream json;
-    json << file.rdbuf();
-
-    file.close();
-
     cxxtools::SerializationInfo si;
 
     try {
-        cxxtools::JsonDeserializer deserializer(json);
-        deserializer.deserialize(si);
+        JSON::readFromFile(filePath, si);
     } catch (const std::exception& e) {
         log_error("Error while deserializing configuration file: %s", e.what());
         log_warning("Using default deletion exclusions");

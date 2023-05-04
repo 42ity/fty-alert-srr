@@ -19,12 +19,11 @@
 
 #include "serialization.h"
 #include "src/alert/rule.h"
-#include <cxxtools/jsondeserializer.h>
-#include <cxxtools/jsonserializer.h>
 #include <cxxtools/serializationinfo.h>
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <fty_common_json.h>
 
 namespace fty { namespace alertutils {
     std::string serializeRules(const std::vector<fty::AlertRule>& rules, const std::string& version)
@@ -46,11 +45,7 @@ namespace fty { namespace alertutils {
         std::string json;
 
         try {
-            std::stringstream        output;
-            cxxtools::JsonSerializer serializer(output);
-            serializer.serialize(si);
-
-            json = output.str();
+            json = JSON::writeToString(si, false);
         } catch (const std::exception& e) {
             throw std::runtime_error("Error while serializing alert rules " + std::string(e.what()));
         }
@@ -65,10 +60,7 @@ namespace fty { namespace alertutils {
         cxxtools::SerializationInfo si;
 
         try {
-            std::stringstream input;
-            input << json;
-            cxxtools::JsonDeserializer deserializer(input);
-            deserializer.deserialize(si);
+            JSON::readFromString(json, si);
         } catch (const std::exception& e) {
             throw std::runtime_error("Error while deserializing alert rules: " + std::string(e.what()));
         }
