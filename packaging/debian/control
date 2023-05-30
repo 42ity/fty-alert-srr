@@ -1,5 +1,5 @@
 Source: fty-alert-srr
-Maintainer: Mauro Guerrera <mauroguerrera@eaton.com>
+Maintainer: fty-alert-srr Developers <opensource@eaton.com>
 Build-Depends:
     cmake (>=3.13),
     debhelper (>= 9),
