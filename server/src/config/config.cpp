@@ -17,47 +17,35 @@
     =========================================================================
 */
 #include "config.h"
-#include <cxxtools/jsondeserializer.h>
-#include <cxxtools/jsonserializer.h>
 #include <cxxtools/serializationinfo.h>
 #include <filesystem>
 #include <fstream>
 #include <fty_log.h>
 #include <sstream>
+#include <fty_common_json.h>
 
 #define CONFIG_FILE "/etc/fty-alert-srr/fty-alert-srr.cfg"
 
 std::vector<std::pair<std::string, std::string>> getRulesPath()
 {
-    namespace fs = std::filesystem;
-
     std::vector<std::pair<std::string, std::string>> pathList = {
         std::make_pair("engine", "/var/lib/fty/fty-alert-engine"),
         std::make_pair("flexible", "/var/lib/fty/fty-alert-flexible/rules"),
         std::make_pair("list", "/var/lib/fty/fty-alert-list")};
 
-    fs::path filePath = CONFIG_FILE;
+    const std::string filePath{CONFIG_FILE};
 
-    if (!fs::exists(filePath)) {
+    if (!std::filesystem::exists(filePath)) {
         log_error("Invalid configuration file path: %s", filePath.c_str());
         log_warning("Using default type configuration");
 
         return pathList;
     }
 
-    std::ifstream file;
-    file.open(filePath);
-
-    std::stringstream json;
-    json << file.rdbuf();
-
-    file.close();
-
     cxxtools::SerializationInfo si;
 
     try {
-        cxxtools::JsonDeserializer deserializer(json);
-        deserializer.deserialize(si);
+        JSON::readFromFile(filePath, si);
     } catch (const std::exception& e) {
         log_error("Error while deserializing configuration file: %s", e.what());
         log_warning("Using default type configuration");
@@ -84,7 +72,7 @@ std::vector<std::pair<std::string, std::string>> getRulesPath()
                 x >>= p;
                 log_debug("Found new rule type - %s : %s", t.c_str(), p.c_str());
                 pathList.push_back(std::make_pair(t, p));
-            } catch (std::exception& e) {
+            } catch (const std::exception& e) {
                 log_error("Error while reading configuration for rule types: %s", e.what());
             }
         }
@@ -108,19 +96,10 @@ std::vector<std::pair<std::string, std::string>> getDelExclusions()
         return exclusions;
     }
 
-    std::ifstream file;
-    file.open(filePath);
-
-    std::stringstream json;
-    json << file.rdbuf();
-
-    file.close();
-
     cxxtools::SerializationInfo si;
 
     try {
-        cxxtools::JsonDeserializer deserializer(json);
-        deserializer.deserialize(si);
+        JSON::readFromFile(filePath, si);
     } catch (const std::exception& e) {
         log_error("Error while deserializing configuration file: %s", e.what());
         log_warning("Using default deletion exclusions");
