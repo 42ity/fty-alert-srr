@@ -18,47 +18,16 @@
 */
 
 #include "rule.h"
-#include <cxxtools/jsondeserializer.h>
-#include <cxxtools/jsonserializer.h>
-#include <cxxtools/serializationinfo.h>
 #include <fty_log.h>
 #include <sstream>
 #include <string>
-
-static std::string loadData(const std::string& raw)
-{
-    // std::string json;
-    // cxxtools::SerializationInfo si;
-    // try {
-    //     std::stringstream input;
-    //     input << raw;
-    //     cxxtools::JsonDeserializer deserializer(input);
-    //     deserializer.deserialize(si);
-    // } catch (const std::exception& e) {
-    //     throw std::runtime_error("Error while deserializing rule data: " + std::string(e.what()));
-    // }
-
-    // try {
-    //     std::stringstream        output;
-    //     cxxtools::JsonSerializer serializer(output);
-    //     serializer.serialize(si);
-
-    //     json = output.str();
-    // } catch (const std::exception& e) {
-    //     throw std::runtime_error("Error while serializing rule data: " + std::string(e.what()));
-    // }
-
-    // return json;
-
-    return raw;
-}
 
 namespace fty {
 
 AlertRule::AlertRule(const Type& type, const std::string& name, const std::string& data)
     : m_type(type)
     , m_name(name)
-    , m_data(loadData(data))
+    , m_data(data)
 {
 }
 
@@ -89,7 +58,7 @@ void AlertRule::setName(const std::string& name)
 
 void AlertRule::setData(const std::string& data)
 {
-    m_data = loadData(data);
+    m_data = data;
 }
 
 std::string AlertRule::ruleTypeToString(const Type& t)

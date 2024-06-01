@@ -20,7 +20,6 @@
 #pragma once
 
 #include <string>
-#include <vector>
 
 namespace fty {
 
@@ -52,7 +51,7 @@ public:
     static Type        stringToRuleType(const std::string& s);
 
 private:
-    Type        m_type;
+    Type        m_type{Type::UNKNOWN};
     std::string m_name;
     std::string m_data;
 };
