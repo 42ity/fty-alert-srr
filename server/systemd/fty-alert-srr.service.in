@@ -1,5 +1,5 @@
 [Unit]
-Description=fty-alert-srr daemon
+Description=@PROJECT_NAME@ service
 After=fty-srr.service
 Requires=fty-srr.service
 PartOf=bios.target
